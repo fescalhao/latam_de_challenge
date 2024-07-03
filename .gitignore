@@ -3,3 +3,4 @@
 data/
 README_ptBR.md
 src/__pycache__
+src/utils/__pycache__/
