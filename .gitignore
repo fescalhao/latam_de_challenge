@@ -2,4 +2,4 @@
 .DS_Store
 data/
 README_ptBR.md
-src/__pycache__/
+src/__pycache__
