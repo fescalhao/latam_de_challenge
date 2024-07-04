@@ -8,7 +8,10 @@ def q1_time(project_id: str, dataset: str, table: str) -> List[Tuple[datetime.da
     """
     Function responsible to retrieve the top 10 dates with the most tweets and also showing the user that had the most
     tweets that day from the BigQuery table "tweets".
-    :return:
+    :param project_id: GCP Account Project ID
+    :type dataset: The specific dataset from BigQuery
+    :param table: The table containing the tweets data
+    :return: A list of tuples containing the specific date and the user with most tweets on that day.
     """
     # Defining the query
     query = f"""
