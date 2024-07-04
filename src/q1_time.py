@@ -16,15 +16,15 @@ def q1_time(project_id: str, dataset: str, table: str) -> List[Tuple[datetime.da
     # Defining the query
     query = f"""
     WITH tweets as (
-      SELECT DATE(TIMESTAMP_MILLIS(CAST(date/1e6 as INTEGER))) as date, 
+      select date(timestamp_millis(cast(date/1e6 as integer))) as date, 
              user.username as user
-        FROM `{project_id}.{dataset}.{table}`
+        from `{project_id}.{dataset}.{table}`
     ),
     count_tweets as (
-      SELECT date, user, COUNT(user) as num_tweets,
-             dense_rank() OVER (PARTITION BY date ORDER BY COUNT(user) DESC) as rank
-        FROM tweets
-       GROUP BY date, user 
+      select date, user, count(user) as num_tweets,
+             dense_rank() over (partition by date order by count(user) desc) as rank
+        from tweets
+       group by date, user 
     )
     
     SELECT date, user

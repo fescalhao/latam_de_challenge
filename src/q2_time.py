@@ -6,7 +6,7 @@ from src.utils.gcp import query_bigquery
 def q2_time(project_id: str, dataset: str, table: str) -> List[Tuple[str, int]]:
     """
     Function responsible to retrieve the top 10 most used emojis and how many times each one
-    of them were used from BigQuery.
+    of them were used from BigQuery table "tweets".
     :param project_id: GCP Account Project ID
     :type dataset: The specific dataset from BigQuery
     :param table: The table containing the tweets data
@@ -15,13 +15,13 @@ def q2_time(project_id: str, dataset: str, table: str) -> List[Tuple[str, int]]:
     # Define the query
     query = f"""
     WITH emoji_list_tb as (
-      SELECT REGEXP_EXTRACT_ALL(content, '[\U0001F600-\U0001F64F\U0001F680-\U0001F6FF\U0001F300-\U0001F5FF\U0001F900-\U0001F9FF\U0001F1E0-\U0001F1FF]') as emoji_list
-        FROM `{project_id}.{dataset}.{table}`
+      select regexp_extract_all(content, '[\U0001F600-\U0001F64F\U0001F680-\U0001F6FF\U0001F300-\U0001F5FF\U0001F900-\U0001F9FF\U0001F1E0-\U0001F1FF]') as emoji_list
+        from `{project_id}.{dataset}.{table}`
     ),
     emojis_tb as (
-      SELECT emojis
-        FROM emoji_list_tb,
-         UNNEST (emoji_list) as emojis
+      select emojis
+        from emoji_list_tb,
+         unnest (emoji_list) as emojis
     )
     
     SELECT emojis, count(*) as emoji_count

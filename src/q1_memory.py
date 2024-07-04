@@ -27,10 +27,10 @@ def q1_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
     df['total_tweets'] = df.groupby(by=['date', 'user'])['user'].transform('count')
 
     # Groups the data by the highest number of tweets on each day
-    df_max = df.groupby(by=['date', 'user']).max().reset_index()
+    df = df.groupby(by=['date', 'user']).max().reset_index()
 
     # Sorts it by number of tweets to filter the days with the most tweets
-    df_final = df_max.sort_values(by='total_tweets', ascending=False).drop_duplicates(subset=['date']).head(10)
+    df_final = df.sort_values(by='total_tweets', ascending=False).drop_duplicates(subset=['date']).head(10)
 
     # Returns the results in the expected format to the caller
     return [(row[1], row[2]) for row in df_final.itertuples()]

@@ -31,10 +31,10 @@ def q2_memory(file_path: str) -> List[Tuple[str, int]]:
     df = df.dropna().explode('content')
 
     # Count the number of each emoji
-    df_emoji_count = df.value_counts().sort_index().rename_axis('emoji').reset_index(name='emoji_count')
+    df = df.value_counts().sort_index().rename_axis('emoji').reset_index(name='emoji_count')
 
     # Sort the emojis by how many times they were used in descending order and take the top 10
-    df_final = df_emoji_count.sort_values(by='emoji_count', ascending=False).head(10)
+    df_final = df.sort_values(by='emoji_count', ascending=False).head(10)
 
     # Returns the results in the expected format to the caller
     return [(row[1], row[2]) for row in df_final.itertuples()]

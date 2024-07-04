@@ -1,9 +1,10 @@
-
 from collections.abc import Iterable
 
 from src.q1_time import q1_time
 from src.q2_memory import q2_memory
 from src.q2_time import q2_time
+from src.q3_memory import q3_memory
+from src.q3_time import q3_time
 from src.utils.gcp import download_file
 from os.path import exists
 import pandas as pd
@@ -11,6 +12,8 @@ from src.q1_memory import q1_memory
 
 
 def main():
+    pd.set_option('display.max_colwidth', None)
+
     file_path = '/tmp/tweets_data.json'
     bucket_name = 'latam-de-challenge'
     source_blob = 'source-file/farmers-protest-tweets-2021-2-4.json'
@@ -36,6 +39,14 @@ def main():
 
     # ------------------------------ q2_time ------------------------------
     result = q2_time(project_id, dataset, table)
+    print_result(result)
+
+    # ------------------------------ q3_memory ------------------------------
+    result = q3_memory(file_path)
+    print_result(result)
+
+    # ------------------------------ q3_time ------------------------------
+    result = q3_time(project_id, dataset, table)
     print_result(result)
 
 
