@@ -1,0 +1,52 @@
+Filename: /Users/felipe.escalhao/Projects/challenge_DE/src/q1_time.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     8    108.4 MiB    108.4 MiB           1   @profile
+     9                                         def q1_time(project_id: str, dataset: str, table: str) -> List[Tuple[datetime.date, str]]:
+    10                                             """
+    11                                             Function responsible to retrieve the top 10 dates with the most tweets and also showing the user that had the most
+    12                                             tweets that day from the BigQuery table "tweets".
+    13                                             :param project_id: GCP Account Project ID
+    14                                             :type dataset: The specific dataset from BigQuery
+    15                                             :param table: The table containing the tweets data
+    16                                             :return: A list of tuples containing the specific date and the user with most tweets on that day.
+    17                                             """
+    18                                             # Defining the query
+    19    108.4 MiB      0.0 MiB           2       query = f"""
+    20                                             WITH tweets as (
+    21                                               select date(timestamp_millis(cast(date/1e6 as integer))) as date,
+    22                                                      user.username as user
+    23    108.4 MiB      0.0 MiB           1           from `{project_id}.{dataset}.{table}`
+    24                                             ),
+    25                                             count_tweets as (
+    26                                               select date, user, count(user) as num_tweets,
+    27                                                      dense_rank() over (partition by date order by count(user) desc) as rank
+    28                                                 from tweets
+    29                                                group by date, user
+    30                                             )
+    31
+    32                                             SELECT date, user
+    33                                               FROM count_tweets
+    34                                              WHERE rank = 1
+    35                                             ORDER BY num_tweets DESC
+    36                                             LIMIT 10;
+    37                                             """
+    38
+    39                                             # Calling the function
+    40    111.4 MiB      3.1 MiB           1       result = query_bigquery(query)
+    41
+    42                                             # Returning the results in the expected format to the caller
+    43    111.5 MiB      0.0 MiB          11       return [(row[0], row[1]) for row in result]
+
+
+(datetime.date(2021, 2, 19), 'Preetm91')
+(datetime.date(2021, 2, 18), 'neetuanjle_nitu')
+(datetime.date(2021, 2, 17), 'RaaJVinderkaur')
+(datetime.date(2021, 2, 13), 'MaanDee08215437')
+(datetime.date(2021, 2, 12), 'RanbirS00614606')
+(datetime.date(2021, 2, 21), 'Surrypuria')
+(datetime.date(2021, 2, 23), 'Surrypuria')
+(datetime.date(2021, 2, 15), 'jot__b')
+(datetime.date(2021, 2, 16), 'jot__b')
+(datetime.date(2021, 2, 14), 'rebelpacifist')

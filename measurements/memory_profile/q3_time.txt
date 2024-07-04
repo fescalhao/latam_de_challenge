@@ -1,0 +1,46 @@
+Filename: /Users/felipe.escalhao/Projects/challenge_DE/src/q3_time.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     7    108.7 MiB    108.7 MiB           1   @profile
+     8                                         def q3_time(project_id: str, dataset: str, table: str) -> List[Tuple[str, int]]:
+     9                                             """
+    10                                                 Function responsible to retrieve the top 10 users with the most mentions in tweets and also showing the
+    11                                                 amount of mentions for each user from the BigQuery table "tweets".
+    12                                                 :param project_id: GCP Account Project ID
+    13                                                 :type dataset: The specific dataset from BigQuery
+    14                                                 :param table: The table containing the tweets data
+    15                                                 :return: A list of tuples containing the top 10 user and the amount of mentions.
+    16                                                 """
+    17                                             # Defining the query
+    18    108.7 MiB      0.0 MiB           2       query = f"""
+    19                                             WITH mentions as (
+    20                                               select mu.element.username, count(mu.element.username) as mentions_count
+    21    108.7 MiB      0.0 MiB           1           from `{project_id}.{dataset}.{table}`,
+    22                                                 unnest (mentionedUsers.list) as mu
+    23                                               group by mu.element.username
+    24                                             )
+    25
+    26                                             SELECT *
+    27                                               FROM mentions
+    28                                             ORDER BY mentions_count DESC
+    29                                             limit 10;
+    30                                             """
+    31
+    32                                             # Calling the function
+    33    111.6 MiB      2.9 MiB           1       result = query_bigquery(query)
+    34
+    35                                             # Returning the results in the expected format to the caller
+    36    111.9 MiB      0.3 MiB          11       return [(row[0], row[1]) for row in result]
+
+
+('narendramodi', 2265)
+('Kisanektamorcha', 1840)
+('RakeshTikaitBKU', 1644)
+('PMOIndia', 1427)
+('RahulGandhi', 1146)
+('GretaThunberg', 1048)
+('RaviSinghKA', 1019)
+('rihanna', 986)
+('UNHumanRights', 962)
+('meenaharris', 926)

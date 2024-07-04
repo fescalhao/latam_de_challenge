@@ -1,0 +1,50 @@
+Filename: /Users/felipe.escalhao/Projects/challenge_DE/src/q2_memory.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     7    108.5 MiB    108.5 MiB           1   @profile
+     8                                         def q2_memory(file_path: str) -> List[Tuple[str, int]]:
+     9                                             """
+    10                                             Function responsible to retrieve the top 10 most used emojis and how many times each one
+    11                                             of them were used.
+    12                                             :param file_path: File containing all the tweets data.
+    13                                             :return: A list of tuples containing the top 10 emojis and their count
+    14                                             """
+    15                                             # Define the regex to contemplate all possible emojis
+    16    108.5 MiB      0.0 MiB           1       r = r'([\U0001F600-\U0001F64F\U0001F680-\U0001F6FF\U0001F300-\U0001F5FF\U0001F900-\U0001F9FF\U0001F1E0-\U0001F1FF])'
+    17
+    18                                             # Define the desired columns
+    19    108.5 MiB      0.0 MiB           1       cols = ['content']
+    20
+    21                                             # Gets the Panda's Dataframe with the specified columns
+    22    166.4 MiB     57.9 MiB           1       df = read_columns_from_json(file_path, cols)
+    23
+    24                                             # Extract only the emojis from the content message grouping them in a comma-separated string
+    25    170.2 MiB      3.8 MiB           1       df['content'] = df['content'].str.extractall(r).groupby(level=0).agg(','.join)
+    26
+    27                                             # Split the string into a list
+    28    170.9 MiB      0.7 MiB           1       df['content'] = df['content'].str.split(',')
+    29
+    30                                             # Dropping NaN values and exploding the list to rows
+    31    173.2 MiB      2.2 MiB           1       df = df.dropna().explode('content')
+    32
+    33                                             # Count the number of each emoji
+    34    173.3 MiB      0.2 MiB           1       df = df.value_counts().sort_index().rename_axis('emoji').reset_index(name='emoji_count')
+    35
+    36                                             # Sort the emojis by how many times they were used in descending order and take the top 10
+    37    173.3 MiB      0.0 MiB           1       df_final = df.sort_values(by='emoji_count', ascending=False).head(10)
+    38
+    39                                             # Returns the results in the expected format to the caller
+    40    173.3 MiB      0.0 MiB          11       return [(row[1], row[2]) for row in df_final.itertuples()]
+
+
+('🙏', 7286)
+('😂', 3072)
+('🚜', 2972)
+('🌾', 2363)
+('🇮', 2096)
+('🇳', 2094)
+('🏻', 2080)
+('🤣', 1668)
+('🏽', 1218)
+('👇', 1108)

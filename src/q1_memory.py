@@ -1,12 +1,9 @@
 from typing import List, Tuple
 from datetime import datetime
 
-from memory_profiler import profile
-
 from src.utils.utils import read_columns_from_json
 
 
-@profile
 def q1_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
     """
     Function responsible to retrieve the top 10 dates with the most tweets and also showing the user that had the most

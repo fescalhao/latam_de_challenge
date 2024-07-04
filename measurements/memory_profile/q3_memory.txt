@@ -1,0 +1,51 @@
+Filename: /Users/felipe.escalhao/Projects/challenge_DE/src/q3_memory.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     7    110.8 MiB    110.8 MiB           1   @profile
+     8                                         def q3_memory(file_path: str) -> List[Tuple[str, int]]:
+     9    247.8 MiB   -119.0 MiB      117408       def _get_mentioned_user(mentions: list) -> list[str]:
+    10                                                 """
+    11                                                 Function to extract the username from all mentions in the tweet
+    12                                                 :param mentions: List of mentions from a specific tweet
+    13                                                 :return: List of usernames
+    14                                                 """
+    15    247.8 MiB   -119.0 MiB      117407           user_list = []
+    16    247.8 MiB   -119.1 MiB      117407           if mentions:
+    17    247.8 MiB   -167.7 MiB      141437               for user in mentions:
+    18    247.8 MiB   -122.9 MiB      103403                   user_list.append(user['username'])
+    19
+    20    247.8 MiB   -119.1 MiB      117407           return user_list
+    21
+    22                                             # Define the desired columns
+    23    110.8 MiB      0.0 MiB           1       cols = ['mentionedUsers']
+    24
+    25                                             # Gets the Panda's Dataframe with the specified columns
+    26    247.1 MiB    136.3 MiB           1       df = read_columns_from_json(file_path, cols)
+    27
+    28                                             # Extract only the username from all mentions in the tweet
+    29    247.8 MiB      0.0 MiB           1       df = df['mentionedUsers'].apply(_get_mentioned_user)
+    30
+    31                                             # Explode the list into rows and drops the NaN values
+    32    252.1 MiB      4.3 MiB           1       df = df.explode('mentionedUsers').dropna()
+    33
+    34                                             # Count the number of each username
+    35    252.5 MiB      0.4 MiB           1       df = df.value_counts().sort_index().rename_axis('user').reset_index(name='mentions_count')
+    36
+    37                                             # Sort the usernames by the amount of mentions in descending order and take the top 10
+    38    252.5 MiB      0.0 MiB           1       df_final = df.sort_values(by='mentions_count', ascending=False).head(10)
+    39
+    40                                             # Returns the results in the expected format to the caller
+    41    252.5 MiB      0.0 MiB          11       return [(row[1], row[2]) for row in df_final.itertuples()]
+
+
+('narendramodi', 2265)
+('Kisanektamorcha', 1840)
+('RakeshTikaitBKU', 1644)
+('PMOIndia', 1427)
+('RahulGandhi', 1146)
+('GretaThunberg', 1048)
+('RaviSinghKA', 1019)
+('rihanna', 986)
+('UNHumanRights', 962)
+('meenaharris', 926)

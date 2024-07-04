@@ -1,0 +1,50 @@
+Filename: /Users/felipe.escalhao/Projects/challenge_DE/src/q2_time.py
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+     7    108.5 MiB    108.5 MiB           1   @profile
+     8                                         def q2_time(project_id: str, dataset: str, table: str) -> List[Tuple[str, int]]:
+     9                                             """
+    10                                             Function responsible to retrieve the top 10 most used emojis and how many times each one
+    11                                             of them were used from BigQuery table "tweets".
+    12                                             :param project_id: GCP Account Project ID
+    13                                             :type dataset: The specific dataset from BigQuery
+    14                                             :param table: The table containing the tweets data
+    15                                             :return: A list of tuples containing the specific date and the user with most tweets on that day.
+    16                                             """
+    17                                             # Define the query
+    18    108.5 MiB      0.0 MiB           2       query = f"""
+    19                                             WITH emoji_list_tb as (
+    20                                               select regexp_extract_all(content, '[\U0001F600-\U0001F64F\U0001F680-\U0001F6FF\U0001F300-\U0001F5FF\U0001F900-\U0001F9FF\U0001F1E0-\U0001F1FF]') as emoji_list
+    21    108.5 MiB      0.0 MiB           1           from `{project_id}.{dataset}.{table}`
+    22                                             ),
+    23                                             emojis_tb as (
+    24                                               select emojis
+    25                                                 from emoji_list_tb,
+    26                                                  unnest (emoji_list) as emojis
+    27                                             )
+    28
+    29                                             SELECT emojis, count(*) as emoji_count
+    30                                               FROM emojis_tb
+    31                                              GROUP BY emojis
+    32                                             ORDER BY count(*) DESC
+    33                                             LIMIT 10;
+    34                                             """
+    35
+    36                                             # Calling the function
+    37    111.0 MiB      2.5 MiB           1       result = query_bigquery(query)
+    38
+    39                                             # Returning the results in the expected format to the caller
+    40    111.2 MiB      0.2 MiB          11       return [(row[0], row[1]) for row in result]
+
+
+('🙏', 7286)
+('😂', 3072)
+('🚜', 2972)
+('🌾', 2363)
+('🇮', 2096)
+('🇳', 2094)
+('🏻', 2080)
+('🤣', 1668)
+('🏽', 1218)
+('👇', 1108)
