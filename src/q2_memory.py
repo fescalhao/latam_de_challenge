@@ -1,8 +1,6 @@
 from typing import List, Tuple
 
-import emoji
-import pandas as pd
-import numpy as np
+from src.utils.utils import read_columns_from_json
 
 
 def q2_memory(file_path: str) -> List[Tuple[str, int]]:
@@ -15,11 +13,11 @@ def q2_memory(file_path: str) -> List[Tuple[str, int]]:
     # Define the regex to contemplate all possible emojis
     r = r'([\U0001F600-\U0001F64F\U0001F680-\U0001F6FF\U0001F300-\U0001F5FF\U0001F900-\U0001F9FF\U0001F1E0-\U0001F1FF])'
 
-    # Reads the json file containing the data
-    df = pd.read_json(file_path, lines=True)
+    # Define the desired columns
+    cols = ['content']
 
-    # Selects only the needed column to reduce the size of the object in memory
-    df = df[['content']]
+    # Gets the Panda's Dataframe with the specified columns
+    df = read_columns_from_json(file_path, cols)
 
     # Extract only the emojis from the content message grouping them in a comma-separated string
     df['content'] = df['content'].str.extractall(r).groupby(level=0).agg(','.join)

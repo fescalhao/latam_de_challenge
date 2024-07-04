@@ -1,8 +1,12 @@
 from typing import List, Tuple
 from datetime import datetime
-import pandas as pd
+
+from memory_profiler import profile
+
+from src.utils.utils import read_columns_from_json
 
 
+@profile
 def q1_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
     """
     Function responsible to retrieve the top 10 dates with the most tweets and also showing the user that had the most
@@ -11,11 +15,14 @@ def q1_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
     :return: A list of tuples containing the specific date and the user with most tweets on that day.
     """
 
-    # Reads the json file containing the data
-    df = pd.read_json(file_path, lines=True)
+    # Define the desired columns
+    cols = ['date', 'user']
 
-    # Selects only the needed columns to reduce the size of the object in memory
-    df = df[['date', 'user']]
+    # Gets the Panda's Dataframe with the specified columns
+    df = read_columns_from_json(file_path, cols)
+
+    # Converts the date column type
+    df['date'] = df['date'].astype('datetime64[ns, UTC]')
 
     # Gets only the date part of the timestamp value
     df['date'] = df['date'].dt.date

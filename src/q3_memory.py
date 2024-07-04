@@ -1,5 +1,6 @@
 from typing import List, Tuple
-import pandas as pd
+
+from src.utils.utils import read_columns_from_json
 
 
 def q3_memory(file_path: str) -> List[Tuple[str, int]]:
@@ -16,8 +17,11 @@ def q3_memory(file_path: str) -> List[Tuple[str, int]]:
 
         return user_list
 
-    # Reads the json file containing the data
-    df = pd.read_json(file_path, lines=True)
+    # Define the desired columns
+    cols = ['mentionedUsers']
+
+    # Gets the Panda's Dataframe with the specified columns
+    df = read_columns_from_json(file_path, cols)
 
     # Extract only the username from all mentions in the tweet
     df = df['mentionedUsers'].apply(_get_mentioned_user)
