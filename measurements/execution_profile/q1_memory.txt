@@ -1,0 +1,30 @@
+with Profile() as profile:
+    result = q1_memory(file_path)
+    print_result(result)
+    (
+        Stats(profile)
+        .strip_dirs()
+        .sort_stats(SortKey.TIME)
+        .print_stats('q1_memory.py')
+    )
+
+(datetime.date(2021, 2, 19), 'Preetm91')
+(datetime.date(2021, 2, 18), 'neetuanjle_nitu')
+(datetime.date(2021, 2, 17), 'RaaJVinderkaur')
+(datetime.date(2021, 2, 13), 'MaanDee08215437')
+(datetime.date(2021, 2, 12), 'RanbirS00614606')
+(datetime.date(2021, 2, 21), 'Surrypuria')
+(datetime.date(2021, 2, 23), 'Surrypuria')
+(datetime.date(2021, 2, 15), 'jot__b')
+(datetime.date(2021, 2, 16), 'jot__b')
+(datetime.date(2021, 2, 14), 'rebelpacifist')
+
+
+1516128 function calls (1515971 primitive calls) in 2.259 seconds
+
+   Ordered by: internal time
+   List reduced from 790 to 2 due to restriction <'q1_memory.py'>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   117407    0.016    0.000    0.016    0.000 q1_memory.py:28(<lambda>)
+        1    0.014    0.014    2.259    2.259 q1_memory.py:7(q1_memory)

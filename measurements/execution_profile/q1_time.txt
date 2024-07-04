@@ -1,0 +1,29 @@
+with Profile() as profile:
+    result = q1_time(file_path)
+    print_result(result)
+    (
+        Stats(profile)
+        .strip_dirs()
+        .sort_stats(SortKey.TIME)
+        .print_stats('q1_time.py')
+    )
+
+(datetime.date(2021, 2, 19), 'Preetm91')
+(datetime.date(2021, 2, 18), 'neetuanjle_nitu')
+(datetime.date(2021, 2, 17), 'RaaJVinderkaur')
+(datetime.date(2021, 2, 13), 'MaanDee08215437')
+(datetime.date(2021, 2, 12), 'RanbirS00614606')
+(datetime.date(2021, 2, 21), 'Surrypuria')
+(datetime.date(2021, 2, 23), 'Surrypuria')
+(datetime.date(2021, 2, 15), 'jot__b')
+(datetime.date(2021, 2, 16), 'jot__b')
+(datetime.date(2021, 2, 14), 'rebelpacifist')
+
+
+27618 function calls (27053 primitive calls) in 2.026 seconds
+
+   Ordered by: internal time
+   List reduced from 1165 to 1 due to restriction <'q1_time.py'>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    2.026    2.026 q1_time.py:7(q1_time)

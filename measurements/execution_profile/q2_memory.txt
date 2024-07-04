@@ -1,0 +1,29 @@
+with Profile() as profile:
+    result = q2_memory(file_path)
+    print_result(result)
+    (
+        Stats(profile)
+        .strip_dirs()
+        .sort_stats(SortKey.TIME)
+        .print_stats('q2_memory.py')
+    )
+
+('🙏', 7286)
+('😂', 3072)
+('🚜', 2972)
+('🌾', 2363)
+('🇮', 2096)
+('🇳', 2094)
+('🏻', 2080)
+('🤣', 1668)
+('🏽', 1218)
+('👇', 1108)
+
+
+3458462 function calls (3427888 primitive calls) in 2.241 seconds
+
+   Ordered by: internal time
+   List reduced from 1019 to 1 due to restriction <'q2_memory.py'>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.004    0.004    2.241    2.241 q2_memory.py:6(q2_memory)

@@ -1,0 +1,29 @@
+with Profile() as profile:
+    result = q2_time(project_id, dataset, table)
+    print_result(result)
+    (
+        Stats(profile)
+        .strip_dirs()
+        .sort_stats(SortKey.TIME)
+        .print_stats('q2_time.py')
+    )
+
+('🙏', 7286)
+('😂', 3072)
+('🚜', 2972)
+('🌾', 2363)
+('🇮', 2096)
+('🇳', 2094)
+('🏻', 2080)
+('🤣', 1668)
+('🏽', 1218)
+('👇', 1108)
+
+
+26233 function calls (25715 primitive calls) in 1.489 seconds
+
+   Ordered by: internal time
+   List reduced from 1145 to 1 due to restriction <'q2_time.py'>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    1.489    1.489 q2_time.py:6(q2_time)

@@ -1,0 +1,30 @@
+with Profile() as profile:
+    result = q3_memory(file_path)
+    print_result(result)
+    (
+        Stats(profile)
+        .strip_dirs()
+        .sort_stats(SortKey.TIME)
+        .print_stats('q3_memory.py')
+    )
+
+('narendramodi', 2265)
+('Kisanektamorcha', 1840)
+('RakeshTikaitBKU', 1644)
+('PMOIndia', 1427)
+('RahulGandhi', 1146)
+('GretaThunberg', 1048)
+('RaviSinghKA', 1019)
+('rihanna', 986)
+('UNHumanRights', 962)
+('meenaharris', 926)
+
+
+1615758 function calls (1615673 primitive calls) in 1.967 seconds
+
+   Ordered by: internal time
+   List reduced from 558 to 2 due to restriction <'q3_memory.py'>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   117407    0.076    0.000    0.082    0.000 q3_memory.py:7(_get_mentioned_user)
+        1    0.026    0.026    1.967    1.967 q3_memory.py:6(q3_memory)

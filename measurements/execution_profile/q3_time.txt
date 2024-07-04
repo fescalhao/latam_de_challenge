@@ -1,0 +1,29 @@
+with Profile() as profile:
+    result = q3_time(project_id, dataset, table)
+    print_result(result)
+    (
+        Stats(profile)
+        .strip_dirs()
+        .sort_stats(SortKey.TIME)
+        .print_stats('q3_time.py')
+    )
+
+('narendramodi', 2265)
+('Kisanektamorcha', 1840)
+('RakeshTikaitBKU', 1644)
+('PMOIndia', 1427)
+('RahulGandhi', 1146)
+('GretaThunberg', 1048)
+('RaviSinghKA', 1019)
+('rihanna', 986)
+('UNHumanRights', 962)
+('meenaharris', 926)
+
+
+26210 function calls (25692 primitive calls) in 1.326 seconds
+
+   Ordered by: internal time
+   List reduced from 1145 to 1 due to restriction <'q3_time.py'>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    1.327    1.327 q3_time.py:6(q3_time)
