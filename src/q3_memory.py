@@ -1,4 +1,7 @@
+import logging
 from typing import List, Tuple
+
+from pandas.errors import InvalidColumnName
 
 from src.utils.utils import read_columns_from_json
 
@@ -23,17 +26,27 @@ def q3_memory(file_path: str) -> List[Tuple[str, int]]:
     # Gets the Panda's Dataframe with the specified columns
     df = read_columns_from_json(file_path, cols)
 
-    # Extract only the username from all mentions in the tweet
-    df = df['mentionedUsers'].apply(_get_mentioned_user)
+    try:
+        # Extract only the username from all mentions in the tweet
+        df = df['mentionedUsers'].apply(_get_mentioned_user)
 
-    # Explode the list into rows and drops the NaN values
-    df = df.explode('mentionedUsers').dropna()
+        # Explode the list into rows and drops the NaN values
+        df = df.explode('mentionedUsers').dropna()
 
-    # Count the number of each username
-    df = df.value_counts().sort_index().rename_axis('user').reset_index(name='mentions_count')
+        # Count the number of each username
+        df = df.value_counts().sort_index().rename_axis('user').reset_index(name='mentions_count')
 
-    # Sort the usernames by the amount of mentions in descending order and take the top 10
-    df_final = df.sort_values(by='mentions_count', ascending=False).head(10)
+        # Sort the usernames by the amount of mentions in descending order and take the top 10
+        df_final = df.sort_values(by='mentions_count', ascending=False).head(10)
 
-    # Returns the results in the expected format to the caller
-    return [(row[1], row[2]) for row in df_final.itertuples()]
+        # Returns the results in the expected format to the caller
+        return [(row[1], row[2]) for row in df_final.itertuples()]
+
+    # This is just a broad error handling. A way to improve this part of the
+    # code is to implement more specific error handling
+    except InvalidColumnName as e:
+        logging.warning(f"Could not find the specified column in the Dataframe.\n{e}")
+    except ValueError as e:
+        logging.error(f"A ValueError occurred while executing the function q1_memory.\n{e}")
+    except Exception as e:
+        logging.error(f"An error occurred while execution the function q1_memory.\n{e}")
